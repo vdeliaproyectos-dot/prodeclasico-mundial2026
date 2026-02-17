@@ -1,0 +1,155 @@
+:root {
+    --verde-cancha: #004d40;
+    --dorado: #ffd700;
+    --oscuro: #121212;
+    --tarjeta: #1e1e1e;
+}
+
+body {
+    background-color: var(--oscuro);
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header h1 {
+    text-align: center;
+    color: var(--dorado);
+    padding: 20px 0;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+/* CABECERA FIJA */
+.cabecera-fija {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--oscuro);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+#seccion-usuario-superior {
+    background: #1a1a1a;
+    padding: 15px;
+    border-bottom: 1px solid #333;
+}
+
+.caja-usuario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#nombre-usuario {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background: #000;
+    color: white;
+    width: 200px;
+}
+
+#progreso-contenedor {
+    padding: 10px 20px;
+}
+
+.texto-progreso { text-align: center; font-size: 0.9rem; margin-bottom: 5px; }
+
+#barra-progreso-fondo {
+    background: #333;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+#barra-progreso-relleno {
+    background: var(--dorado);
+    width: 0%;
+    height: 100%;
+    transition: 0.3s;
+}
+
+/* BOTÓN RANKING */
+.contenedor-estadisticas { text-align: center; margin: 20px; }
+#btn-ranking {
+    background: transparent;
+    color: var(--dorado);
+    border: 1px solid var(--dorado);
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* GRID DE PARTIDOS */
+.grid-tres-columnas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
+    padding: 15px;
+}
+
+.partido-card {
+    background: var(--tarjeta);
+    border-radius: 10px;
+    padding: 15px;
+    border: 1px solid #333;
+}
+
+.card-bloqueada { opacity: 0.6; filter: grayscale(0.8); }
+
+.fila-horizontal-prode {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bloque-equipo { text-align: center; width: 30%; font-size: 0.8rem; }
+.bandera { width: 30px; height: 30px; border-radius: 50%; margin-bottom: 5px; }
+
+.opciones-prode { display: flex; gap: 5px; }
+.btn-prode {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-prode.activo { background: var(--dorado); color: black; }
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+}
+.modal-contenido {
+    background: #222;
+    margin: 15% auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+}
+#tabla-ranking { width: 100%; border-collapse: collapse; margin-top: 10px; }
+#tabla-ranking th { text-align: left; color: var(--dorado); border-bottom: 1px solid #444; }
+#tabla-ranking td { padding: 10px 0; border-bottom: 1px solid #333; }
+
+/* ENVÍO */
+#seccion-envio { text-align: center; padding: 40px 0; }
+#btn-enviar {
+    background: #28a745;
+    color: white;
+    padding: 15px 40px;
+    border-radius: 30px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prode Mundial 2026 - Edición Clásica</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>PRODE MUNDIAL 2026</h1>
+    </header>
+
+    <main id="app">
+        <div class="cabecera-fija">
+            <section id="seccion-usuario-superior">
+                <div class="caja-usuario">
+                    <label for="nombre-usuario">USUARIO:</label>
+                    <input type="text" id="nombre-usuario" placeholder="Ingresa tu nombre" required>
+                </div>
+            </section>
+
+            <div id="progreso-contenedor">
+                <div class="texto-progreso">
+                    Progreso: <span id="completados">0</span> / <span id="total-partidos">0</span>
+                </div>
+                <div id="barra-progreso-fondo">
+                    <div id="barra-progreso-relleno"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contenedor-estadisticas">
+            <button id="btn-ranking" onclick="verRanking()">🏆 Ver Tabla de Posiciones</button>
+        </div>
+
+        <h2 class="titulo-etapa-mundial">Fase de Grupos - Predicciones</h2>
+
+        <div id="contenedor-partidos">
+            <p class="cargando">Cargando fixture...</p>
+        </div>
+
+        <section id="seccion-envio">
+            <button id="btn-enviar" onclick="enviarPronosticos()">Guardar mis Predicciones</button>
+        </section>
+    </main>
+
+    <div id="modal-ranking" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="cerrarRanking()">&times;</span>
+            <h2 style="color: #ffd700; text-align: center; margin-bottom: 20px;">🏆 Posiciones</h2>
+            <div class="tabla-scroll">
+                <table id="tabla-ranking">
+                    <thead>
+                        <tr>
+                            <th>Pos</th>
+                            <th>Usuario</th>
+                            <th>Pts</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpo-ranking">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
