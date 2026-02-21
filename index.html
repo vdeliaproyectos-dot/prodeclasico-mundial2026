@@ -11,6 +11,20 @@
     <header>
         <h1>PRODE CCT Santa Fe - MUNDIAL 2026</h1>
     </header>
+<nav class="navegacion-grupos">
+    <a href="#grupo-a" class="btn-salto">Grupo A</a>
+    <a href="#grupo-b" class="btn-salto">Grupo. B</a>
+    <a href="#grupo-c" class="btn-salto">Grupo. C</a>
+    <a href="#grupo-d" class="btn-salto">Grupo. D</a>
+    <a href="#grupo-e" class="btn-salto">Grupo. E</a>
+    <a href="#grupo-f" class="btn-salto">Grupo. F</a>
+    <a href="#grupo-g" class="btn-salto">Grupo. G</a>
+    <a href="#grupo-h" class="btn-salto">Grupo. H</a>
+    <a href="#grupo-i" class="btn-salto">Grupo. I</a>
+    <a href="#grupo-j" class="btn-salto">Grupo. J</a>
+    <a href="#grupo-k" class="btn-salto">Grupo. K</a>
+    <a href="#grupo-l" class="btn-salto">Grupo. L</a>
+</nav>
 
     <main id="app">
         <div class="cabecera-fija">
@@ -21,19 +35,19 @@
                 </div>
             </section>
 
-            <div id="progreso-contenedor">
-                <div class="texto-progreso">
-                    Progreso: <span id="completados">0</span> / <span id="total-partidos">0</span>
-                </div>
-                <div id="barra-progreso-fondo">
-                    <div id="barra-progreso-relleno"></div>
-                </div>
-            </div>
         </div>
 
         <div class="contenedor-estadisticas">
-            <button id="btn-ranking" onclick="verRanking()">🏆 Ver Tabla de Posiciones</button>
-        </div>
+    <button onclick="verRanking()">🏆 Ver Tabla de Posiciones</button>
+    
+</div>
+
+<div id="modal-ranking" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="cerrarRanking()">&times;</span>
+        <div id="contenido-ranking"></div>
+    </div>
+</div>
 
         <h2 class="titulo-etapa-mundial">Fase de Grupos - Predicciones</h2>
 
@@ -42,7 +56,7 @@
         </div>
 
         <section id="seccion-envio">
-            <button id="btn-enviar" onclick="enviarPronosticos()">Guardar mis Predicciones</button>
+            <button id="btn-enviar" onclick="enviarPredicciones()">Enviar Predicciones</button>
         </section>
     </main>
 
@@ -67,6 +81,19 @@
     </div>
 
     <script src="script.js"></script>
+
+<div id="modal-ranking" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="cerrarRanking()">&times;</span>
+        <div id="contenido-ranking"></div>
+    </div>
+</div>
+
+<button id="btn-flotante" class="boton-flotante-enviar" onclick="enviarPredicciones()">
+    <span class="icono">🚀</span> 
+    <span class="texto">Enviar Predicciones</span>
+</button>
+
 </body>
 
 </html>

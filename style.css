@@ -52,25 +52,7 @@ header h1 {
     width: 200px;
 }
 
-#progreso-contenedor {
-    padding: 10px 20px;
-}
 
-.texto-progreso { text-align: center; font-size: 0.9rem; margin-bottom: 5px; }
-
-#barra-progreso-fondo {
-    background: #333;
-    height: 8px;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-#barra-progreso-relleno {
-    background: var(--dorado);
-    width: 0%;
-    height: 100%;
-    transition: 0.3s;
-}
 
 /* BOTÓN RANKING */
 .contenedor-estadisticas { text-align: center; margin: 20px; }
@@ -107,8 +89,17 @@ header h1 {
 }
 
 .bloque-equipo { text-align: center; width: 30%; font-size: 0.8rem; }
-.bandera { width: 30px; height: 30px; border-radius: 50%; margin-bottom: 5px; }
-
+/* Estilo para hacer las banderas redondas y pequeñas */
+.bandera {
+    width: 40px !important;
+    height: 40px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important; /* Esto DEBE redondearlas */
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    vertical-align: middle;
+    display: inline-block; /* Asegura que tome el tamaño correctamente */
+}
 .opciones-prode { display: flex; gap: 5px; }
 .btn-prode {
     background: #333;
@@ -153,3 +144,374 @@ header h1 {
     font-weight: bold;
     cursor: pointer;
 }
+
+/* Este es el contenedor que crearemos por cada grupo */
+.grid-partidos {
+    display: grid;
+    /* Divide el espacio en 3 columnas iguales */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px; /* Espacio entre las tarjetas de partidos */
+    margin-bottom: 40px;
+}
+
+/* IMPORTANTE: Responsivo para celulares */
+@media (max-width: 1024px) {
+    .grid-partidos {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-partidos {
+        grid-template-columns: 1fr; /* 1 sola columna en celulares */
+    }
+}
+
+/* Ajuste opcional para los títulos de los grupos */
+.titulo-fase {
+    grid-column: 1 / -1; /* Hace que el título ocupe todo el ancho */
+    color: var(--primary);
+    text-transform: uppercase;
+    margin: 20px 0;
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 5px;
+}
+
+/* Contenedor de la fila del partido */
+.fila-partido {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Distribuye espacio entre equipos y botones */
+    gap: 5px; /* Espacio mínimo para que no se peguen */
+    width: 100%;
+}
+
+/* Bloque de cada equipo (Bandera + Nombre) */
+.equipo-bloque {
+    display: flex;
+    flex-direction: row; /* Fuerza a que bandera y nombre estén en una línea */
+    align-items: center;
+    gap: 5px;
+    flex: 1; /* Permite que ambos equipos crezcan por igual */
+    min-width: 0; /* Evita que el texto largo rompa el flex */
+}
+
+/* Ajuste del nombre para que no salte de línea */
+.nombre-equipo {
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap; /* Evita que el nombre baje a otra línea */
+    overflow: hidden; /* Corta el texto si es muy largo */
+    text-overflow: ellipsis; /* Pone "..." si el nombre no entra */
+}
+
+/* Botones más compactos para que entre todo */
+.controles-voto {
+    display: flex;
+    gap: 3px;
+    flex-shrink: 0; /* Evita que los botones se achiquen */
+}
+
+.btn-voto {
+    width: 30px; /* Reducimos un poco el tamaño */
+    height: 30px;
+    font-size: 0.8rem;
+    padding: 0;
+}
+/* El fondo oscuro que cubre la pantalla */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8); /* Fondo negro traslúcido */
+    backdrop-filter: blur(5px); /* Desenfoque de fondo */
+}
+
+/* La caja blanca/oscura del centro */
+.modal-content {
+    background-color: #1a1a1a;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid var(--primary);
+    width: 80%;
+    max-width: 600px;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+/* Botón de cerrar (X) */
+.close-modal {
+    color: var(--text-muted);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    color: var(--primary);
+}
+
+/* Ajustes para la tabla dentro del modal */
+.modal-content .tabla-prode {
+    margin-top: 10px;
+}
+
+/* Estilo para el botón cuando está seleccionado */
+.btn-voto.active {
+    background-color: #ffd700 !important; /* Amarillo Dorado */
+    color: #000 !important;              /* Texto negro para contraste */
+    border-color: #ffd700 !important;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); /* Resplandor sutil */
+    transform: scale(1.05);              /* Se agranda un poquito */
+}
+
+/* Opcional: Estilo para los botones no seleccionados para que resalte más el amarillo */
+.btn-voto {
+    transition: all 0.2s ease;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Asegura que el contenedor del ranking se vea */
+#contenido-ranking {
+    width: 100%;
+    min-height: 200px; /* Le damos altura mínima para que no sea invisible */
+    margin-top: 10px;
+    display: block !important; /* Forzamos que se muestre */
+    color: white !important; /* Forzamos texto blanco */
+    overflow-y: auto; /* Si hay muchos jugadores, permite hacer scroll */
+    max-height: 400px;
+}
+
+/* Estilo para la tabla que genera el JS */
+.tabla-prode {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgba(255, 255, 255, 0.05); /* Un fondo sutil */
+}
+
+.tabla-prode th, .tabla-prode td {
+    padding: 12px;
+    border-bottom: 1px solid #444;
+    text-align: center;
+}
+
+.tabla-prode th {
+    color: #ffd700; /* Dorado para los títulos */
+    border-bottom: 2px solid #ffd700;
+}
+
+.boton-flotante-enviar {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 15px 25px;
+    background-color: #ffd700; /* Dorado */
+    color: #000;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0px 10px 20px rgba(0,0,0,0.4);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    border: 2px solid black;
+}
+
+.boton-flotante-enviar:hover {
+    transform: translateY(-5px) scale(1.05);
+    background-color: #fff; /* Cambia a blanco al pasar el mouse */
+    box-shadow: 0px 15px 25px rgba(0,0,0,0.6);
+}
+
+.boton-flotante-enviar .icono {
+    font-size: 20px;
+}
+
+/* Ocultar el texto en celulares para que no moleste tanto */
+@media (max-width: 600px) {
+    .boton-flotante-enviar .texto {
+        display: none;
+    }
+    .boton-flotante-enviar {
+        padding: 15px;
+        border-radius: 50%;
+        bottom: 20px;
+        right: 20px;
+    }
+}
+/* Opción "A todo o nada": Redondea todas las imágenes pequeñas del sitio */
+img {
+    border-radius: 50% !important;
+    object-fit: cover !important;
+}
+
+/* 1. Estilo para los botones del menú */
+.navegacion-grupos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px;
+    background: #222;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 2px solid #ffd700;
+}
+
+.btn-salto {
+    background: #333;
+    color: #ffd700 !important; /* Forzamos el color dorado */
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 20px;
+    border: 1px solid #ffd700;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.btn-salto:hover {
+    background: #ffd700;
+    color: #000 !important;
+}
+
+/* Colores específicos por cada botón de grupo */
+.btn-salto[href="#grupo-a"] { border-color: #3498db; color: #3498db !important; }
+.btn-salto[href="#grupo-a"]:hover { background: #3498db; }
+
+.btn-salto[href="#grupo-b"] { border-color: #e74c3c; color: #e74c3c !important; }
+.btn-salto[href="#grupo-b"]:hover { background: #e74c3c; }
+
+.btn-salto[href="#grupo-c"] { border-color: #2ecc71; color: #2ecc71 !important; }
+.btn-salto[href="#grupo-c"]:hover { background: #2ecc71; }
+
+.btn-salto[href="#grupo-d"] { border-color: #f1c40f; color: #f1c40f !important; }
+.btn-salto[href="#grupo-d"]:hover { background: #f1c40f; }
+
+.btn-salto[href="#grupo-e"] { border-color: #9b59b6; color: #9b59b6 !important; }
+.btn-salto[href="#grupo-e"]:hover { background: #9b59b6; }
+
+.btn-salto[href="#grupo-f"] { border-color: #e67e22; color: #e67e22 !important; }
+.btn-salto[href="#grupo-f"]:hover { background: #e67e22; }
+
+.btn-salto[href="#grupo-g"] { border-color: #1abc9c; color: #1abc9c !important; }
+.btn-salto[href="#grupo-g"]:hover { background: #1abc9c; }
+
+.btn-salto[href="#grupo-h"] { border-color: #95a5a6; color: #95a5a6 !important; }
+.btn-salto[href="#grupo-h"]:hover { background: #95a5a6; }
+
+.btn-salto[href="#grupo-i"] { border-color: rgb(239, 109, 109); color: rgb(239, 109, 109) !important; }
+.btn-salto[href="#grupo-i"]:hover { background: rgb(239, 109, 109); }
+
+.btn-salto[href="#grupo-j"] { border-color: blueviolet; color: blueviolet !important; }
+.btn-salto[href="#grupo-j"]:hover { background: blueviolet; }
+
+.btn-salto[href="#grupo-k"] { border-color: whitesmoke; color: whitesmoke !important; }
+.btn-salto[href="#grupo-k"]:hover { background: whitesmoke; }
+
+.btn-salto[href="#grupo-l"] { border-color: greenyellow; color: greenyellow !important; }
+.btn-salto[href="#grupo-l"]:hover { background: greenyellow; }
+
+
+/* 2. Estilo para los Títulos de los Grupos */
+.titulo-grupo {
+    display: block;
+    width: 100%;
+    background: #333;
+    color: #ffd700;
+    padding: 15px;
+    margin-top: 50px; /* Separa los grupos entre sí */
+    text-align: center;
+    border-radius: 8px;
+    scroll-margin-top: 80px; /* Evita que el menú tape el título al saltar */
+}
+
+/* 3. Colores para los bloques de partidos */
+.bloque-partidos {
+    padding: 20px;
+    margin-bottom: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.grupo-a { border-top: 5px solid #3498db; }
+.grupo-b { border-top: 5px solid #e74c3c; }
+.grupo-c { border-top: 5px solid #2ecc71; }
+.grupo-d { border-top: 5px solid #f1c40f; }
+
+/* Oculta el contador de progreso */
+#progreso, .progreso-container, .contador-progreso {
+    display: none !important;
+}
+
+/* Ajusta el salto para que el menú no tape el título */
+.titulo-fase, .titulo-grupo {
+    scroll-margin-top: 120px; /* Aumenta este número si tu menú es más alto */
+    padding-top: 20px;
+}
+
+/* Opcional: Asegúrate de que el título tenga un color que resalte */
+.titulo-fase {
+    color: #ffd700; /* Dorado */
+    background: #222;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Colores de borde izquierdo para cada grupo */
+.seccion-fase:has(#grupo-a) { border-left: 8px solid #3498db; } /* Azul */
+.seccion-fase:has(#grupo-b) { border-left: 8px solid #e74c3c; } /* Rojo */
+.seccion-fase:has(#grupo-c) { border-left: 8px solid #2ecc71; } /* Verde */
+.seccion-fase:has(#grupo-d) { border-left: 8px solid #f1c40f; } /* Amarillo */
+.seccion-fase:has(#grupo-e) { border-left: 8px solid #9b59b6; } /* Morado */
+.seccion-fase:has(#grupo-f) { border-left: 8px solid #e67e22; } /* Naranja */
+.seccion-fase:has(#grupo-g) { border-left: 8px solid #1abc9c; } /* Turquesa */
+.seccion-fase:has(#grupo-h) { border-left: 8px solid #95a5a6; } /* Gris */
+.seccion-fase:has(#grupo-i) {border-left: 8px solid rgb(239, 109, 109)} /*Rosado */
+.seccion-fase:has(#grupo-j) { border-left: 8px solid blueviolet} /* Violeta */
+.seccion-fase:has(.grupo-k) {border-left: 8px solid whitesmoke} /*Blanco*/
+.seccion-fase:has(#grupo-l) {border-left: 8px solid greenyellow} /*Verde fluo */
+
+/* Estilo para que el bloque se vea como una tarjeta */
+.seccion-fase {
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 40px;
+    padding: 20px;
+    border-radius: 0 15px 15px 0; /* Redondeado solo a la derecha */
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Color del título según el grupo (opcional) */
+#grupo-a { color: #3498db; }
+#grupo-b { color: #e74c3c; }
+#grupo-c { color: #2ecc71; }
+#grupo-d { color: #f1c40f; }
+#grupo-e { color: #9b59b6; }
+#grupo-f { color: #e67e22; }
+#grupo-g { color: #1abc9c;}
+#grupo-h { color: #95a5a6;}
+#grupo-i { color: rgb(239, 109, 109); }
+#grupo-j { color: blueviolet;}
+#grupo-k { color: whitesmoke; }
+#grupo-l { color:greenyellow;}
+
